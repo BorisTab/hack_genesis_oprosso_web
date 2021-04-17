@@ -69,32 +69,51 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch('/api/add/', {
       method: 'post',
       body: JSON.stringify(form)
-    });
+    })
+    .then((response) => {
+      if (response.status !== 200) {
+        console.log("Ничего. Status: " + response.status);
+        return;
+      }
+
+      response.json().then((data) => {
+        console.log(data);
+
+        let taskNum = data.task_id;
+        console.log(taskNum);
+
+        fetch('/api/'+ taskNum + '/')
+        .then((response) => {
+          if (response.status !== 200) {
+            console.log("Ничего. Status: " + response.status);
+            return;
+          }
+
+          response.json().then((data) => {
+            console.log(data);
+          
+            let perc = data.cur_people / data.num_of_people * 100;
+            console.log(perc);
+          
+            $('.card-3-date').text(data.date);
+            $('.card-3-name').text(data.name);
+            $('.task-name').text(data.name);
+            $('.task-description').html(data.description.replace(/\n/g, "<br />"));
+            $('.card-3-progress').text(perc + '%');
+            $('.card-3-box-progress').css("width", perc + '%');
+
+            $('.project-box-wrapper-3').css("display", "block");
+          });
+        })
+        .catch((error) => {
+          console.log("Fetch error: -S", error);
+        });
+
+      });
+    })
+    .catch((error) => {
+      console.log("Fetch error: -S", error);
+    });;
   });
 
-});
-
-fetch('/api/7/')
-.then((response) => {
-  if (response.status !== 200) {
-    console.log("Ничего. Status: " + response.status);
-    return;
-  }
-
-  response.json().then((data) => {
-    console.log(data);
-
-    let perc = data.cur_people / data.num_of_people * 100;
-    console.log(perc);
-
-    $('.card-3-date').text(data.date);
-    $('.card-3-name').text(data.name);
-    $('.task-name').text(data.name);
-    $('.task-description').html(data.description.replace(/\n/g, "<br />"));
-    $('.card-3-progress').text(perc + '%');
-    $('.card-3-box-progress').css("width", perc + '%');
-  });
-})
-.catch((error) => {
-  console.log("Fetch error: -S", error);
 });

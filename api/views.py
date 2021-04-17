@@ -32,7 +32,7 @@ def add_task(request):
     new_task = decode_json(request)
     download_apk(new_task['file_ref'], 'app.apk')
     package_name = get_package_name('app.apk')
-    new = Task(name=new_task['name'], description=new_task['description'], need_people=new_task['num_of_people'], cur_people=new_task['cur_people'], link=new_task['file_ref'], pkg_name=package_name, pub_date=datetime.datetime.now().strftime('%d %B, %Y'))
+    new = Task(name=new_task['name'], description=new_task['description'], need_people=new_task['num_of_people'], cur_people=0, link=new_task['file_ref'], pkg_name=package_name, pub_date=datetime.datetime.now().strftime('%d %B, %Y'))
     new.save()
     return JsonResponse({"task_id" : new.task_id})
 

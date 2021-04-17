@@ -909,3 +909,6 @@ input[type=number] {
 	overflow-y: scroll;
 }
  
+.project-box-wrapper-3 {
+	display: none;
+}
