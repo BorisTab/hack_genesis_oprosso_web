@@ -19,7 +19,7 @@ def add_task(request):
     new_task = decode_json(request)
     new = Task(name=new_task['name'], description=new_task['description'], people=new_task['num_of_people'], link=new_task['file_ref'], pub_date=timezone.now())
     new.save()
-    return HttpResponse(200)
+    return JsonResponse({"address" : "http://127.0.0.1:8000/api/"})
 
 def show_all_tasks(request):
     all_tasks = Task.objects.all()
