@@ -73,3 +73,27 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 });
+
+fetch('/api/5/')
+.then((response) => {
+  if (response.status !== 200) {
+    console.log("Ничего. Status: " + response.status);
+    return;
+  }
+
+  response.json().then((data) => {
+    console.log(data);
+
+    let perc = 70;
+
+    $('.card-3-date').text(data.date);
+    $('.card-3-name').text(data.name);
+    $('.task-name').text(data.name);
+    $('.task-description').html(data.description.replace(/\n/g, "<br />"));
+    $('.card-3-progress').text(perc + '%');
+    $('.card-3-box-progress').css("width", perc + '%');
+  });
+})
+.catch((error) => {
+  console.log("Fetch error: -S", error);
+});
