@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
     );
     /*Закрытие модального окна*/
-    $('.overlay,.close').on('click',function(){
+    $('.submit-button,.overlay,.close').on('click',function(){
         $('.overlay,.modal').hide();
     });
 
@@ -43,6 +43,16 @@ document.addEventListener('DOMContentLoaded', function () {
       var fileName = $(this).val().split('/').pop().split('\\').pop();
       // console.log(fileName);
       $('.input-file-name-info').text(fileName);
-
     });
+
+    $('.card-3-button').on('click',
+            function () {
+                $('.overlay,.card-info').show();
+            }
+    );
+
+    $('.overlay,.close').on('click',function(){
+      $('.overlay,.card-info').hide();
+  });
+
   });
