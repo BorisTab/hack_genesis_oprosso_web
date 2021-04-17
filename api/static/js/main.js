@@ -46,13 +46,30 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   $('.card-3-button').on('click',
-          function () {
-              $('.overlay,.card-info').show();
-          }
+    function () {
+      $('.overlay,.card-info').show();
+    }
   );
 
   $('.overlay,.close').on('click',function(){
     $('.overlay,.card-info').hide();
-});
+  });
+
+  $('.submit-button').on('click', () => {
+    let form = {
+      name: $('.task-name-input').val(),
+      description: $('.task-description-input-field').val(),
+      num_of_people: parseInt($('.people-num-input').val(), 10),
+      file_ref: $('.file-ref-input').val()
+    };
+
+
+    console.log(form);
+
+    fetch('/api/add/', {
+      method: 'post',
+      body: JSON.stringify(form)
+    });
+  });
 
 });
