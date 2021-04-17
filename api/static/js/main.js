@@ -46,13 +46,55 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   $('.card-3-button').on('click',
-          function () {
-              $('.overlay,.card-info').show();
-          }
+    function () {
+      $('.overlay,.card-info').show();
+    }
   );
 
   $('.overlay,.close').on('click',function(){
     $('.overlay,.card-info').hide();
+  });
+
+  $('.submit-button').on('click', () => {
+    let form = {
+      name: $('.task-name-input').val(),
+      description: $('.task-description-input-field').val(),
+      num_of_people: parseInt($('.people-num-input').val(), 10),
+      file_ref: $('.file-ref-input').val()
+    };
+
+
+    console.log(form);
+
+    fetch('/api/add/', {
+      method: 'post',
+      body: JSON.stringify(form)
+    });
+  });
+
 });
 
+fetch('/api/6/')
+.then((response) => {
+  if (response.status !== 200) {
+    console.log("Ничего. Status: " + response.status);
+    return;
+  }
+
+  response.json().then((data) => {
+    console.log(data);
+
+    let perc = data.cur_people / data.num_of_people * 100;
+    console.log(perc);
+
+    $('.card-3-date').text(data.date);
+    $('.card-3-name').text(data.name);
+    $('.task-name').text(data.name);
+    $('.task-description').html(data.description.replace(/\n/g, "<br />"));
+    $('.card-3-progress').text(perc + '%');
+    $('.card-3-box-progress').css("width", perc + '%');
+  });
+})
+.catch((error) => {
+  console.log("Fetch error: -S", error);
 });
