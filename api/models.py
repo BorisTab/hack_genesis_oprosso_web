@@ -16,7 +16,3 @@ class Task(models.Model):
 
 class RunTask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-
-class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=100)
-    file = forms.FileField()
