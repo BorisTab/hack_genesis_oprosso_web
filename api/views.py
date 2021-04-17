@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 import json
 import datetime
 
@@ -29,9 +29,13 @@ def show_all_tasks(request):
         all_tasks_json.append(convert_json(task.task_id, task.name, task.description, task.people, task.link, task.pub_date))
         
     JsonResponse(all_tasks_json)
+  
 
 def show_task(request, task_id):
     # id_of_task = decode_json(request)
     task = Task.objects.get(task_id=task_id)
     inf_task = convert_json(str(task.task_id), task.name, task.description, str(task.people), task.link, str(task.pub_date))
     return inf_task
+
+def render_page(request):
+    return render(request, 'frontend/index.html')
