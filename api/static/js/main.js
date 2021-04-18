@@ -105,72 +105,48 @@ document.addEventListener('DOMContentLoaded', function () {
             $('.project-box-wrapper-3').css("display", "block");
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log("Fetch error: -S", error);
         });
 
       });
     })
-    .catch((error) => {
+    .catch(error => {
       console.log("Fetch error: -S", error);
-    });;
+    });
   });
 
-  $('tbody').html(`
-  <tr>
-  <td>AAX</td>
-  <td>ADELAIDE</td>
-  <td>$3.22</td>
-  <td>+0.01</td>
-</tr>
-<tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-            <tr>
-              <td>AAX</td>
-              <td>ADELAIDE</td>
-              <td>$3.22</td>
-              <td>+0.01</td>
-            </tr>
-  `);
+});
 
+fetch('/api/counters/')
+.then(response => {
+  if (response.status !== 200) {
+    console.log("Ничего. Status: " + response.status);
+    return;
+  }
+
+  response.json().then(data => {
+    console.log(data.counters);
+
+    let fullTableInner = "";
+
+    data.counters.forEach(element => {
+      console.log(element);
+
+      let tableInner = `
+      <tr>
+      <td>` + element.id + `</td>
+      <td>` + element.type + `</td>
+      <td>` + element.label + `</td>
+      <td>` + element.events + `</td>
+      </tr>`;
+
+      fullTableInner += tableInner;
+    });
+
+    $('tbody').html(fullTableInner);
+  });
+})
+.catch((error) => {
+  console.log("Fetch error: -S", error);
 });

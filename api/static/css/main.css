@@ -875,11 +875,11 @@ input[type=number] {
     display: none;
     height: 800px;
     left:55%;
-    margin-left: -25%;
+    margin-left: -35%;
     margin-top: -150px;
     position: fixed;
     top: 25%;
-    width: 40%;
+    width: 60%;
     z-index: 1000;
 	border-radius: 32px;
 	padding: 32px 32px 0  32px;
@@ -913,7 +913,7 @@ input[type=number] {
 }
  
 .project-box-wrapper-3 {
-	/* display: none; */
+	display: none;
 }
 
 .card-table {
