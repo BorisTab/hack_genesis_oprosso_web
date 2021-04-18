@@ -10,6 +10,9 @@ from androguard.misc import AnalyzeAPK
 from django.utils import timezone
 # from .forms import ModelFormWithFileField
 from .models import Task
+from .counters import collect_counters
+
+from glob import glob
 
 def download_apk(url, output):
     r = requests.get(url, allow_redirects=True)
@@ -49,6 +52,16 @@ def show_task(request, task_id):
     task = Task.objects.get(task_id=task_id)
     inf_task = convert_json(str(task.task_id), task.name, task.description, str(task.need_people), str(task.cur_people), task.link, task.pkg_name, str(task.pub_date))
     return inf_task
+
+def show_counters_table(request):
+    views = glob('telemetry/*.xml')
+    counters = collect_counters(views, 'telemetry/event-log.txt')
+    counter_dicts = []
+    
+    for key in counters.keys():
+        counter_dicts.append({'id' : str(key), 'type': counters[key]['type'][0], 'label': counters[key]['label'], 'events': counters[key]['events']})
+    return JsonResponse({'counters' : counter_dicts})
+
 
 def render_page(request):
     return render(request, 'frontend/index.html')
